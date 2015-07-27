@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Curso Android Cast</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="button_login">Entrar</string>
+    <string name="button_register">Cadastrar</string>
+    <string name="button_ok">Sim</string>
+    <string name="button_cancel">Cancelar</string>
+
+    <string name="menu_save_client">Salvar</string>
+    <string name="menu_register_client">Registrar Cliente</string>
+    <string name="menu_edit_client">Editar</string>
+    <string name="menu_delete_client">Excluir</string>
+
+    <string name="label_user_name">Usuário</string>
+    <string name="label_password">Senha</string>
+    <string name="label_name">Nome</string>
+    <string name="label_phone">Telefone</string>
+    <string name="label_age">Idade</string>
+    <string name="label_address">Endereço</string>
+    <string name="label_no_client_registered">Nenhum cliente cadastrado!</string>
+
+    <string name="message_delete_confirm_title_general">Esta ação não pode ser desfeita</string>
+    <string name="message_delete_confirm_general">Deseja mesmo prosseguir?</string>
+
+    <string name="action_client_register_success">Cadastro realizado com sucesso!</string>
+    <string name="action_client_update_success">Cadastro atualizado com sucesso!</string>
+    <string name="action_client_delete">Cliente Excluído!</string>
+
+    <string name="error_field_required_general">Campo Obrigatório!</string>
+</resources>
