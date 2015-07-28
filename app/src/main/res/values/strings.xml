@@ -6,6 +6,7 @@
     <string name="button_register">Register</string>
     <string name="button_ok">Ok</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_find_zip_code">Find Zip Code</string>
 
     <string name="menu_save_client">Save</string>
     <string name="menu_register_client">Register Client</string>
@@ -17,15 +18,24 @@
     <string name="label_name">Name</string>
     <string name="label_phone">Phone</string>
     <string name="label_age">Age</string>
+    <string name="label_zip_code">Zip Code</string>
     <string name="label_address">Address</string>
-    <string name="label_no_client_registered">No client registered!</string>
+    <string name="label_address_type">Address Type</string>
+    <string name="label_district">District</string>
+    <string name="label_city">City</string>
+    <string name="label_province">Province</string>
+    <string name="label_no_client_registered">No clients registered!</string>
 
     <string name="message_delete_confirm_title_general">This action cannot be undone</string>
     <string name="message_delete_confirm_general">Are you sure you want to proceed?</string>
 
     <string name="action_client_register_success">Register successful!</string>
-    <string name="action_client_delete">Client Deleted!</string>
+    <string name="action_client_delete">Client deleted!</string>
     <string name="action_client_update_success">Update successful!</string>
 
     <string name="error_field_required_general">Field Required!</string>
+    <string name="error_no_zip_code_found">No Zip Code found!</string>
+
+    <string name="loader_zip_code_title">Searching Zip Code</string>
+    <string name="loader_zip_code_message">Please wait...</string>
 </resources>

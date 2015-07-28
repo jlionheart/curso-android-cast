@@ -1,14 +1,20 @@
 package com.curso_android_cast.cursoandroidcast.controller;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.curso_android_cast.cursoandroidcast.R;
 import com.curso_android_cast.cursoandroidcast.model.entity.Client;
+import com.curso_android_cast.cursoandroidcast.model.entity.ClientAddress;
+import com.curso_android_cast.cursoandroidcast.model.service.CepService;
 import com.curso_android_cast.cursoandroidcast.util.helper.FormHelper;
 import com.curso_android_cast.cursoandroidcast.util.helper.ToastHelper;
 
@@ -21,26 +27,19 @@ public class ClientPersistActivity extends AppCompatActivity {
     private EditText editTextAge;
     private EditText editTextPhone;
     private EditText editTextAddress;
+    private EditText editTextZipCode;
+    private EditText editTextAddressType;
+    private EditText editTextDistrict;
+    private EditText editTextCity;
+    private EditText editTextProvince;
+    private Button buttonFindZipCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_persist);
-
-        editTextName = (EditText)findViewById(R.id.editTextName);
-        editTextAge = (EditText)findViewById(R.id.editTextAge);
-        editTextPhone = (EditText)findViewById(R.id.editTextPhone);
-        editTextAddress = (EditText)findViewById(R.id.editTextAddress);
-        Bundle extras = getIntent().getExtras();
-
-        if(extras != null) {
-            client = extras.getParcelable(CLIENT_PARAM);
-
-            if(client == null)
-                throw new IllegalArgumentException();
-            else
-                bindForm(client);
-        }
+        bindFields();
+        getParameters();
     }
 
     @Override
@@ -81,5 +80,79 @@ public class ClientPersistActivity extends AppCompatActivity {
         editTextAge.setText(client.getAge().toString());
         editTextPhone.setText(client.getPhone());
         editTextAddress.setText(client.getAddress());
+    }
+
+    private void getParameters() {
+        Bundle extras = getIntent().getExtras();
+
+        if(extras != null) {
+            client = extras.getParcelable(CLIENT_PARAM);
+
+            if(client == null)
+                throw new IllegalArgumentException();
+            else
+                bindForm(client);
+        }
+    }
+
+    private void bindFields() {
+        editTextName = (EditText)findViewById(R.id.editTextName);
+        editTextAge = (EditText)findViewById(R.id.editTextAge);
+        editTextPhone = (EditText)findViewById(R.id.editTextPhone);
+        editTextAddress = (EditText)findViewById(R.id.editTextAddress);
+        editTextZipCode = (EditText)findViewById(R.id.editTextZipCode);
+        editTextAddressType = (EditText)findViewById(R.id.editTextAddressType);
+        editTextDistrict = (EditText)findViewById(R.id.editTextDistrict);
+        editTextCity = (EditText)findViewById(R.id.editTextCity);
+        editTextProvince = (EditText)findViewById(R.id.editTextProvince);
+        bindButtonFindZipCode();
+    }
+
+    private void bindButtonFindZipCode() {
+        buttonFindZipCode = (Button)findViewById(R.id.buttonFindZipCode);
+        buttonFindZipCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(FormHelper.requireValidate(ClientPersistActivity.this, editTextZipCode))
+                    new GetAddressByCep().execute(editTextZipCode.getText().toString());
+            }
+        });
+    }
+
+    private class GetAddressByCep extends AsyncTask<String, Void, ClientAddress> {
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(ClientPersistActivity.this);
+            progressDialog.setTitle(getString(R.string.loader_zip_code_title));
+            progressDialog.setMessage(getString(R.string.loader_zip_code_message));
+            progressDialog.show();
+        }
+
+        @Override
+        protected ClientAddress doInBackground(String... params) {
+            return CepService.getAddressByZipCode(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ClientAddress clientAddress) {
+            super.onPostExecute(clientAddress);
+
+            if(clientAddress == null) {
+                ToastHelper.showShortToast(ClientPersistActivity.this, R.string.error_no_zip_code_found);
+            }
+            else {
+                editTextAddress.setText(clientAddress.getAddress());
+                editTextAddressType.setText(clientAddress.getAddressType());
+                editTextDistrict.setText(clientAddress.getDistrict());
+                editTextCity.setText(clientAddress.getCity());
+                editTextProvince.setText(clientAddress.getProvince());
+            }
+
+            progressDialog.dismiss();
+        }
     }
 }

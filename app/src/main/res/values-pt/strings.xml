@@ -11,13 +11,19 @@
     <string name="menu_register_client">Registrar Cliente</string>
     <string name="menu_edit_client">Editar</string>
     <string name="menu_delete_client">Excluir</string>
+    <string name="button_find_zip_code">Buscar CEP</string>
 
     <string name="label_user_name">Usuário</string>
     <string name="label_password">Senha</string>
     <string name="label_name">Nome</string>
     <string name="label_phone">Telefone</string>
     <string name="label_age">Idade</string>
+    <string name="label_zip_code">CEP</string>
     <string name="label_address">Endereço</string>
+    <string name="label_address_type">Tipo Logradouro</string>
+    <string name="label_district">Bairro</string>
+    <string name="label_city">Cidade</string>
+    <string name="label_province">Estado</string>
     <string name="label_no_client_registered">Nenhum cliente cadastrado!</string>
 
     <string name="message_delete_confirm_title_general">Esta ação não pode ser desfeita</string>
@@ -25,7 +31,11 @@
 
     <string name="action_client_register_success">Cadastro realizado com sucesso!</string>
     <string name="action_client_update_success">Cadastro atualizado com sucesso!</string>
-    <string name="action_client_delete">Cliente Excluído!</string>
+    <string name="action_client_delete">Cliente excluído!</string>
 
     <string name="error_field_required_general">Campo Obrigatório!</string>
+    <string name="error_no_zip_code_found">Nenhum cep encontrado!</string>
+
+    <string name="loader_zip_code_title">Procurando CEP</string>
+    <string name="loader_zip_code_message">Por favor, aguarde...</string>
 </resources>
