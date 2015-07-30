@@ -40,7 +40,6 @@ public class ClientPersistActivity extends AppCompatActivity {
     private EditText editTextDistrict;
     private EditText editTextCity;
     private EditText editTextProvince;
-    private Button buttonFindZipCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,22 +131,24 @@ public class ClientPersistActivity extends AppCompatActivity {
         editTextDistrict = (EditText)findViewById(R.id.editTextDistrict);
         editTextCity = (EditText)findViewById(R.id.editTextCity);
         editTextProvince = (EditText)findViewById(R.id.editTextProvince);
-        bindButtonFindZipCode();
 
         editTextName.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
+                if (FormHelper.isRightIconArea(editTextName, event)) {
+                    final Intent goToSOContacts = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                    goToSOContacts.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+                    startActivityForResult(goToSOContacts, 999);
+                }
+                return false;
+            }
+        });
 
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (editTextName.getRight() - editTextName.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        final Intent goToSOContacts = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                        goToSOContacts.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
-                        startActivityForResult(goToSOContacts, 999);
-                    }
+        editTextZipCode.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (FormHelper.isRightIconArea(editTextZipCode, event)) {
+                    new GetAddressByCep().execute(editTextZipCode.getText().toString());
                 }
                 return false;
             }
@@ -188,18 +189,6 @@ public class ClientPersistActivity extends AppCompatActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void bindButtonFindZipCode() {
-        buttonFindZipCode = (Button)findViewById(R.id.buttonFindZipCode);
-        buttonFindZipCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FormHelper.requireValidate(ClientPersistActivity.this, editTextZipCode)) {
-                    new GetAddressByCep().execute(editTextZipCode.getText().toString());
-                }
-            }
-        });
     }
 
     private class GetAddressByCep extends AsyncTask<String, Void, ClientAddress> {

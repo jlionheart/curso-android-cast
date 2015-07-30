@@ -28,6 +28,7 @@
 
     <string name="message_delete_confirm_title_general">Esta ação não pode ser desfeita</string>
     <string name="message_delete_confirm_general">Deseja mesmo prosseguir?</string>
+    <string name="message_share_clients">Compartilhar Clientes</string>
 
     <string name="action_client_register_success">Cadastro realizado com sucesso!</string>
     <string name="action_client_update_success">Cadastro atualizado com sucesso!</string>
@@ -35,6 +36,7 @@
 
     <string name="error_field_required_general">Campo Obrigatório!</string>
     <string name="error_no_zip_code_found">Nenhum cep encontrado!</string>
+    <string name="error_invalid_login">Usuário ou Senha inválidos!</string>
 
     <string name="loader_zip_code_title">Procurando CEP</string>
     <string name="loader_zip_code_message">Por favor, aguarde...</string>

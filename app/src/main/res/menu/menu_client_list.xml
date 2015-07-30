@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/actionMenuRegister"
+        android:id="@+id/actionMenuShareClients"
         android:title="@string/menu_register_client"
-        android:orderInCategory="100" app:showAsAction="always" android:icon="@mipmap/ic_add" />
+        android:orderInCategory="100" app:showAsAction="always" android:icon="@mipmap/ic_social_share" />
 </menu>

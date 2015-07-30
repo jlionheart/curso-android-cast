@@ -67,17 +67,24 @@ public class ClientListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.actionMenuRegister :
-                final Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Seu texto aqui...");
-                sendIntent.setType(HTTP.PLAIN_TEXT_TYPE);
+            case R.id.actionMenuShareClients :
+                ClientListAdapter clientAdapter = (ClientListAdapter)listViewClients.getAdapter();
 
-                // Create intent to show the chooser dialog
-                final Intent chooser = Intent.createChooser(sendIntent, "Titulo Chooser");
+                if(clientAdapter.getCount() > 0) {
+                    final Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, getShareContent(clientAdapter));
+                    sendIntent.setType(HTTP.PLAIN_TEXT_TYPE);
 
-                // Verify the original intent will resolve to at least one activity
-                if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(chooser);
+                    // Create intent to show the chooser dialog
+                    final Intent chooser = Intent.createChooser(sendIntent, getString(R.string.message_share_clients));
+
+                    // Verify the original intent will resolve to at least one activity
+                    if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(chooser);
+                    }
+                }
+                else{
+                    ToastHelper.showShortToast(ClientListActivity.this, R.string.label_no_client_registered);
                 }
                 break;
         }
@@ -101,9 +108,6 @@ public class ClientListActivity extends AppCompatActivity {
                 break;
 
             case R.id.actionMenuDelete :
-                //client.delete();
-                //ToastHelper.showShortToast(ClientListActivity.this, R.string.action_client_delete);
-                //refreshClientList();
                 new AlertDialog.Builder(ClientListActivity.this)
                 .setMessage(R.string.message_delete_confirm_general).setTitle(R.string.message_delete_confirm_title_general)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
@@ -178,5 +182,15 @@ public class ClientListActivity extends AppCompatActivity {
         }
 
         return showEmpty;
+    }
+
+    private String getShareContent(ClientListAdapter clientListAdapter){
+        StringBuilder shareContent = new StringBuilder();
+
+        for(int i = 0; i < clientListAdapter.getCount(); i++){
+            shareContent.append(clientListAdapter.getItem(i).getName() + " ");
+        }
+
+        return shareContent.toString();
     }
 }

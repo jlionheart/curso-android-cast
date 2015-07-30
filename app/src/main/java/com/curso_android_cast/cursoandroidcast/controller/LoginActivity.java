@@ -7,28 +7,56 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.curso_android_cast.cursoandroidcast.R;
+import com.curso_android_cast.cursoandroidcast.model.entity.User;
+import com.curso_android_cast.cursoandroidcast.util.helper.FormHelper;
+import com.curso_android_cast.cursoandroidcast.util.helper.ToastHelper;
 
 
 public class LoginActivity extends AppCompatActivity {
+    private User user;
+    private EditText editTextUserName;
+    private EditText editTextPassword;
     private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        bindFields();
+    }
+
+    private void bindUser(){
+        user = new User();
+        user.setUserName(editTextUserName.getText().toString());
+        user.setPassword(editTextPassword.getText().toString());
+    }
+
+    private void bindFields(){
+        editTextUserName = (EditText)findViewById(R.id.editTextUserName);
+        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
         bindLoginButton();
     }
 
-    protected void bindLoginButton(){
+    private void bindLoginButton(){
         loginButton = (Button)findViewById(R.id.buttonLogin);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(LoginActivity.this, ClientListActivity.class);
-            startActivity(intent);
+                if(FormHelper.requireValidate(LoginActivity.this, editTextUserName, editTextPassword)) {
+                    bindUser();
+
+                    if(user.login()) {
+                        Intent intent = new Intent(LoginActivity.this, ClientListActivity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        ToastHelper.showShortToast(LoginActivity.this, R.string.error_invalid_login);
+                    }
+                }
             }
         });
     }

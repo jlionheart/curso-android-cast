@@ -13,6 +13,7 @@ import com.curso_android_cast.cursoandroidcast.util.AppUtil;
 import java.util.List;
 
 public class SQLiteClientRepository implements ClientRepository {
+
     private static SQLiteClientRepository singletonInstance;
 
     private SQLiteClientRepository(){

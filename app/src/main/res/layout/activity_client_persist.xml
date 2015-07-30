@@ -8,78 +8,102 @@
         android:padding="@dimen/activity_horizontal_margin"
         android:layout_height="match_parent">
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextName"
             android:hint="@string/label_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@mipmap/ic_person_gray" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextAge"
             android:hint="@string/label_age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextPhone"
             android:hint="@string/label_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-        <LinearLayout
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="horizontal">
-
+            android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/editTextZipCode"
                 android:hint="@string/label_zip_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:inputType="number" />
+                android:inputType="number"
+                android:drawableRight="@mipmap/ic_search_gray" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-            <Button
-                android:id="@+id/buttonFindZipCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_find_zip_code"
-                android:layout_weight="0"
-                style="@style/DefaultButton" />
-
-        </LinearLayout>
-
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextAddress"
             android:hint="@string/label_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextAddressType"
             android:hint="@string/label_address_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextDistrict"
             android:hint="@string/label_district"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextCity"
             android:hint="@string/label_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <EditText
             android:id="@+id/editTextProvince"
             android:hint="@string/label_province"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
     </LinearLayout>
 

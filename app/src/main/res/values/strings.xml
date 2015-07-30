@@ -28,6 +28,7 @@
 
     <string name="message_delete_confirm_title_general">This action cannot be undone</string>
     <string name="message_delete_confirm_general">Are you sure you want to proceed?</string>
+    <string name="message_share_clients">Share Clients</string>
 
     <string name="action_client_register_success">Register successful!</string>
     <string name="action_client_delete">Client deleted!</string>
@@ -35,6 +36,7 @@
 
     <string name="error_field_required_general">Field Required!</string>
     <string name="error_no_zip_code_found">No Zip Code found!</string>
+    <string name="error_invalid_login">Invalid User Name or Password!</string>
 
     <string name="loader_zip_code_title">Searching Zip Code</string>
     <string name="loader_zip_code_message">Please wait...</string>
