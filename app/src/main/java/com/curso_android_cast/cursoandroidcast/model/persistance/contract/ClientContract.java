@@ -16,8 +16,13 @@ public class ClientContract {
     public static final String AGE = "age";
     public static final String PHONE = "phone";
     public static final String ADDRESS = "address";
+    public static final String ADDRESS_TYPE = "address_type";
+    public static final String DISTRICT = "district";
+    public static final String CITY = "city";
+    public static final String ZIP_CODE = "zip_code";
+    public static final String PROVINCE = "province";
 
-    public static final String[] COLUMNS = { ID, NAME, AGE, PHONE, ADDRESS };
+    public static final String[] COLUMNS = { ID, NAME, AGE, PHONE, ADDRESS, ADDRESS_TYPE, DISTRICT, CITY, ZIP_CODE, PROVINCE };
 
     public static String getSqlCreateTable(){
         StringBuilder sql = new StringBuilder();
@@ -29,7 +34,12 @@ public class ClientContract {
         sql.append(NAME + " TEXT, ");
         sql.append(AGE + " INTEGER, ");
         sql.append(PHONE + " TEXT, ");
-        sql.append(ADDRESS + " TEXT ");
+        sql.append(ADDRESS + " TEXT, ");
+        sql.append(ADDRESS_TYPE + " TEXT NULL, ");
+        sql.append(DISTRICT + " TEXT NULL, ");
+        sql.append(CITY + " TEXT NULL, ");
+        sql.append(ZIP_CODE + " TEXT NULL, ");
+        sql.append(PROVINCE + " TEXT NULL ");
         sql.append(" ) ");
 
         return sql.toString();
@@ -42,7 +52,12 @@ public class ClientContract {
             client.setName(cursor.getString(cursor.getColumnIndex(ClientContract.NAME)));
             client.setAge(cursor.getInt(cursor.getColumnIndex(ClientContract.AGE)));
             client.setPhone(cursor.getString(cursor.getColumnIndex(ClientContract.PHONE)));
-            client.setAddress(cursor.getString(cursor.getColumnIndex(ClientContract.ADDRESS)));
+            client.getAddress().setAddress(cursor.getString(cursor.getColumnIndex(ClientContract.ADDRESS)));
+            client.getAddress().setAddressType(cursor.getString(cursor.getColumnIndex(ClientContract.ADDRESS_TYPE)));
+            client.getAddress().setDistrict(cursor.getString(cursor.getColumnIndex(ClientContract.DISTRICT)));
+            client.getAddress().setCity(cursor.getString(cursor.getColumnIndex(ClientContract.CITY)));
+            client.getAddress().setZipCode(cursor.getString(cursor.getColumnIndex(ClientContract.ZIP_CODE)));
+            client.getAddress().setProvince(cursor.getString(cursor.getColumnIndex(ClientContract.PROVINCE)));
 
             return client;
         }
@@ -66,7 +81,12 @@ public class ClientContract {
         values.put(ClientContract.NAME, client.getName());
         values.put(ClientContract.AGE, client.getAge());
         values.put(ClientContract.PHONE, client.getPhone());
-        values.put(ClientContract.ADDRESS, client.getAddress());
+        values.put(ClientContract.ADDRESS, client.getAddress().getAddress());
+        values.put(ClientContract.ADDRESS_TYPE, client.getAddress().getAddressType());
+        values.put(ClientContract.DISTRICT, client.getAddress().getDistrict());
+        values.put(ClientContract.CITY, client.getAddress().getCity());
+        values.put(ClientContract.ZIP_CODE, client.getAddress().getZipCode());
+        values.put(ClientContract.PROVINCE, client.getAddress().getProvince());
         return values;
     }
 }

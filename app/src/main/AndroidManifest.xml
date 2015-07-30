@@ -3,13 +3,15 @@
     package="com.curso_android_cast.cursoandroidcast">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
     <application
         android:name=".CursoAndroidCast"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:logo="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppThemeMaterial" >
         <activity
             android:name=".controller.LoginActivity"
             android:label="@string/app_name" >
@@ -19,12 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controller.ClientPersistActivity"
+            android:name=".controller.ClientListActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".controller.ClientListActivity"
-            android:label="@string/app_name" >
+            android:name=".controller.ClientPersistActivity"
+            android:label="@string/app_name">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".controller.ClientListActivity" />
         </activity>
     </application>
 

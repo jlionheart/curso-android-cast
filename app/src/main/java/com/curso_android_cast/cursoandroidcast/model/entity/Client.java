@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import com.curso_android_cast.cursoandroidcast.model.entity.base.BaseEntity;
 import com.curso_android_cast.cursoandroidcast.model.persistance.SQLiteClientRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Client extends BaseEntity implements Parcelable {
@@ -15,10 +14,11 @@ public class Client extends BaseEntity implements Parcelable {
     private String name;
     private Integer age;
     private String phone;
-    private String address;
+    private ClientAddress address;
 
     public Client() {
         super();
+        address = new ClientAddress();
     }
 
     public Client(Parcel in){
@@ -50,12 +50,8 @@ public class Client extends BaseEntity implements Parcelable {
         this.phone = phone;
     }
 
-    public String getAddress() {
+    public ClientAddress getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public void readToParcel(Parcel in){
@@ -65,7 +61,7 @@ public class Client extends BaseEntity implements Parcelable {
         int partialAge = in.readInt();
         age = partialAge == -1 ? null : partialAge;
         phone = in.readString();
-        address = in.readString();
+        address = in.readParcelable(ClientAddress.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Client> CREATOR = new Parcelable.Creator<Client>() {
@@ -101,7 +97,7 @@ public class Client extends BaseEntity implements Parcelable {
         dest.writeString(name == null ? "" : name);
         dest.writeInt(age == null ? -1 : age);
         dest.writeString(phone == null ? "" : phone);
-        dest.writeString(address == null ? "" : address);
+        dest.writeParcelable(address, flags);
     }
 
     @Override
@@ -111,7 +107,6 @@ public class Client extends BaseEntity implements Parcelable {
 
         Client client = (Client) o;
 
-        if (getId() != null ? !getId().equals(client.getId()) : client.getId() != null) return false;
         if (name != null ? !name.equals(client.name) : client.name != null) return false;
         if (age != null ? !age.equals(client.age) : client.age != null) return false;
         if (phone != null ? !phone.equals(client.phone) : client.phone != null) return false;
@@ -122,7 +117,6 @@ public class Client extends BaseEntity implements Parcelable {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);

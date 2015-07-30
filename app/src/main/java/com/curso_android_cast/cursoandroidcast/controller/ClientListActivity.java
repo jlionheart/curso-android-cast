@@ -3,6 +3,7 @@ package com.curso_android_cast.cursoandroidcast.controller;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,9 @@ import com.curso_android_cast.cursoandroidcast.R;
 import com.curso_android_cast.cursoandroidcast.controller.adapter.ClientListAdapter;
 import com.curso_android_cast.cursoandroidcast.model.entity.Client;
 import com.curso_android_cast.cursoandroidcast.util.helper.ToastHelper;
+import com.melnykov.fab.FloatingActionButton;
+
+import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +31,25 @@ public class ClientListActivity extends AppCompatActivity {
     private ListView listViewClients;
     private TextView textViewEmptyList;
     private Client client;
+    private FloatingActionButton fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_list);
         bindClientList();
+        bindFab();
+    }
+
+    private void bindFab() {
+        fabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ClientListActivity.this, ClientPersistActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -51,8 +68,17 @@ public class ClientListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionMenuRegister :
-                Intent intent = new Intent(ClientListActivity.this, ClientPersistActivity.class);
-                startActivity(intent);
+                final Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Seu texto aqui...");
+                sendIntent.setType(HTTP.PLAIN_TEXT_TYPE);
+
+                // Create intent to show the chooser dialog
+                final Intent chooser = Intent.createChooser(sendIntent, "Titulo Chooser");
+
+                // Verify the original intent will resolve to at least one activity
+                if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(chooser);
+                }
                 break;
         }
 
@@ -110,8 +136,18 @@ public class ClientListActivity extends AppCompatActivity {
         listViewClients.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                client = (Client) parent.getItemAtPosition(position);
+                client = (Client)parent.getItemAtPosition(position);
                 return false;
+            }
+        });
+
+        listViewClients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Client client = (Client)parent.getItemAtPosition(position);
+                final Intent goToSOPhoneCall = new Intent(Intent.ACTION_DIAL); //or Intent.ACTION_CALL (no manifest permission needed)
+                goToSOPhoneCall.setData(Uri.parse("tel:" + client.getPhone()));
+                startActivity(goToSOPhoneCall);
             }
         });
 
