@@ -13,8 +13,9 @@ public class UserContract {
     public static final String NAME = "name";
     public static final String USER_NAME = "user_name";
     public static final String PASSWORD = "password";
+    public static final String SALT = "salt";
 
-    public static final String[] COLUMNS = { ID, NAME, USER_NAME, PASSWORD };
+    public static final String[] COLUMNS = { ID, NAME, USER_NAME, PASSWORD, SALT };
 
     public static final String getCreateTable(){
         StringBuilder sql = new StringBuilder();
@@ -25,7 +26,8 @@ public class UserContract {
         sql.append(ID + " INTEGER PRIMARY KEY, ");
         sql.append(NAME + " TEXT, ");
         sql.append(USER_NAME + " TEXT, ");
-        sql.append(PASSWORD + " TEXT ");
+        sql.append(PASSWORD + " TEXT, ");
+        sql.append(SALT + " TEXT ");
         sql.append(" ) ");
 
         return sql.toString();
@@ -38,6 +40,7 @@ public class UserContract {
             user.setName(cursor.getString(cursor.getColumnIndex(UserContract.NAME)));
             user.setUserName(cursor.getString(cursor.getColumnIndex(UserContract.USER_NAME)));
             user.setPassword(cursor.getString(cursor.getColumnIndex(UserContract.PASSWORD)));
+            user.setSalt(cursor.getString(cursor.getColumnIndex(UserContract.SALT)));
 
             return user;
         }

@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,16 +15,14 @@ import android.widget.TextView;
 
 import com.curso_android_cast.cursoandroidcast.R;
 import com.curso_android_cast.cursoandroidcast.controller.adapter.ClientListAdapter;
+import com.curso_android_cast.cursoandroidcast.controller.generic.LogOutActivity;
 import com.curso_android_cast.cursoandroidcast.model.entity.Client;
 import com.curso_android_cast.cursoandroidcast.util.helper.ToastHelper;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.protocol.HTTP;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ClientListActivity extends AppCompatActivity {
+public class ClientListActivity extends LogOutActivity {
 
     private ListView listViewClients;
     private TextView textViewEmptyList;
@@ -39,17 +35,6 @@ public class ClientListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_client_list);
         bindClientList();
         bindFab();
-    }
-
-    private void bindFab() {
-        fabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ClientListActivity.this, ClientPersistActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -133,9 +118,11 @@ public class ClientListActivity extends AppCompatActivity {
 
     private void bindClientList() {
         listViewClients = (ListView)findViewById(R.id.listViewClients);
+        textViewEmptyList = (TextView)findViewById(R.id.textViewEmptyList);
+
         ClientListAdapter clientAdapter = new ClientListAdapter(ClientListActivity.this, Client.getAll());
-        if(!showEmptyList(clientAdapter));
-            listViewClients.setAdapter(clientAdapter);
+        listViewClients.setAdapter(clientAdapter);
+        listViewClients.setEmptyView(textViewEmptyList);
 
         listViewClients.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -148,7 +135,7 @@ public class ClientListActivity extends AppCompatActivity {
         listViewClients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Client client = (Client)parent.getItemAtPosition(position);
+                Client client = (Client) parent.getItemAtPosition(position);
                 final Intent goToSOPhoneCall = new Intent(Intent.ACTION_DIAL); //or Intent.ACTION_CALL (no manifest permission needed)
                 goToSOPhoneCall.setData(Uri.parse("tel:" + client.getPhone()));
                 startActivity(goToSOPhoneCall);
@@ -158,30 +145,21 @@ public class ClientListActivity extends AppCompatActivity {
         registerForContextMenu(listViewClients);
     }
 
+    private void bindFab() {
+        fabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ClientListActivity.this, ClientPersistActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void refreshClientList() {
         ClientListAdapter clientAdapter = (ClientListAdapter)listViewClients.getAdapter();
         clientAdapter.setClientList(Client.getAll());
-
-        if(!showEmptyList(clientAdapter));
-            clientAdapter.notifyDataSetChanged();
-    }
-
-    private boolean showEmptyList(ClientListAdapter clientListAdapter){
-        boolean showEmpty;
-        textViewEmptyList = (TextView)findViewById(R.id.textViewEmptyList);
-
-        if(clientListAdapter.getCount() <= 0){
-            showEmpty = true;
-            listViewClients.setVisibility(View.GONE);
-            textViewEmptyList.setVisibility(View.VISIBLE);
-        }
-        else{
-            showEmpty = false;
-            textViewEmptyList.setVisibility(View.GONE);
-            listViewClients.setVisibility(View.VISIBLE);
-        }
-
-        return showEmpty;
+        clientAdapter.notifyDataSetChanged();
     }
 
     private String getShareContent(ClientListAdapter clientListAdapter){

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Curso Android Cast</string>
-    <string name="action_settings">Configurações</string>
+    <string name="app_list">Lista de Clientes</string>
+    <string name="app_register_client">Cadastrar Cliente</string>
+    <string name="app_update_client">Atualizar Cliente</string>
 
     <string name="button_login">Entrar</string>
     <string name="button_register">Cadastrar</string>
@@ -11,7 +13,7 @@
     <string name="menu_register_client">Registrar Cliente</string>
     <string name="menu_edit_client">Editar</string>
     <string name="menu_delete_client">Excluir</string>
-    <string name="button_find_zip_code">Buscar CEP</string>
+    <string name="menu_logout">Sair</string>
 
     <string name="label_user_name">Usuário</string>
     <string name="label_password">Senha</string>
@@ -33,10 +35,13 @@
     <string name="action_client_register_success">Cadastro realizado com sucesso!</string>
     <string name="action_client_update_success">Cadastro atualizado com sucesso!</string>
     <string name="action_client_delete">Cliente excluído!</string>
+    <string name="action_user_logout">Você saiu da sua conta com sucesso!</string>
 
     <string name="error_field_required_general">Campo Obrigatório!</string>
     <string name="error_no_zip_code_found">Nenhum cep encontrado!</string>
-    <string name="error_invalid_login">Usuário ou Senha inválidos!</string>
+    <string name="error_login_invalid_password">Senha inválida!</string>
+    <string name="error_login_user_do_not_exists">Usuário não cadastrado!</string>
+    <string name="error_no_network_available">Por favor, conecte-se a Internet!</string>
 
     <string name="loader_zip_code_title">Procurando CEP</string>
     <string name="loader_zip_code_message">Por favor, aguarde...</string>

@@ -1,6 +1,5 @@
 package com.curso_android_cast.cursoandroidcast.controller;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,19 +15,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.curso_android_cast.cursoandroidcast.R;
 import com.curso_android_cast.cursoandroidcast.model.entity.Client;
 import com.curso_android_cast.cursoandroidcast.model.entity.ClientAddress;
 import com.curso_android_cast.cursoandroidcast.model.service.CepService;
+import com.curso_android_cast.cursoandroidcast.util.NetworkUtil;
 import com.curso_android_cast.cursoandroidcast.util.helper.FormHelper;
 import com.curso_android_cast.cursoandroidcast.util.helper.ToastHelper;
 
 public class ClientPersistActivity extends AppCompatActivity {
 
-    public static String CLIENT_PARAM = "CLIENT_PARAM";
+    public static final String CLIENT_PARAM = "CLIENT_PARAM";
+    private static final int ACTIVITY_REQUEST_CODE = 999;
 
     private Client client;
     private EditText editTextName;
@@ -58,10 +58,6 @@ public class ClientPersistActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                break;
-
             case R.id.actionMenuSave :
                 if(FormHelper.requireValidate(ClientPersistActivity.this, editTextName, editTextPhone, editTextAge, editTextAddress)){
                     bindClient();
@@ -77,8 +73,9 @@ public class ClientPersistActivity extends AppCompatActivity {
     }
 
     private void bindClient(){
-        if(client == null || client.getId() == null)
+        if(client == null || client.getId() == null) {
             client = new Client();
+        }
 
         client.setName(editTextName.getText().toString());
         client.setAge(Integer.valueOf(editTextAge.getText().toString()));
@@ -119,6 +116,9 @@ public class ClientPersistActivity extends AppCompatActivity {
             else
                 fillForm(client);
         }
+        else{
+            getSupportActionBar().setTitle(R.string.app_register_client);
+        }
     }
 
     private void bindFields() {
@@ -138,7 +138,7 @@ public class ClientPersistActivity extends AppCompatActivity {
                 if (FormHelper.isRightIconArea(editTextName, event)) {
                     final Intent goToSOContacts = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                     goToSOContacts.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
-                    startActivityForResult(goToSOContacts, 999);
+                    startActivityForResult(goToSOContacts, ACTIVITY_REQUEST_CODE);
                 }
                 return false;
             }
@@ -148,7 +148,10 @@ public class ClientPersistActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (FormHelper.isRightIconArea(editTextZipCode, event)) {
-                    new GetAddressByCep().execute(editTextZipCode.getText().toString());
+                    if(NetworkUtil.isAvailable())
+                        new GetAddressByCep().execute(editTextZipCode.getText().toString());
+                    else
+                        ToastHelper.showShortToast(ClientPersistActivity.this, R.string.error_no_network_available);
                 }
                 return false;
             }
@@ -160,27 +163,19 @@ public class ClientPersistActivity extends AppCompatActivity {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 999) {
+        if (requestCode == ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final Uri contactUri = data.getData();
                     final String[] projection = {
                             ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME,
-                            ContactsContract.CommonDataKinds.Phone.NUMBER,
-                            ContactsContract.CommonDataKinds.StructuredPostal.STREET,
-                            ContactsContract.CommonDataKinds.StructuredPostal.REGION,
-                            ContactsContract.CommonDataKinds.StructuredPostal.CITY,
-                            ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE
+                            ContactsContract.CommonDataKinds.Phone.NUMBER
                     };
                     final Cursor cursor = getContentResolver().query(contactUri, projection, null, null, null);
                     cursor.moveToFirst();
 
                     editTextName.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME)));
                     editTextPhone.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-                    editTextAddress.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.STREET)));
-                    editTextProvince.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.REGION)));
-                    editTextCity.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.CITY)));
-                    editTextZipCode.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE)));
 
                     cursor.close();
                 } catch (Exception e) {

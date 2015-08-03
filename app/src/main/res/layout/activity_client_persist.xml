@@ -6,17 +6,18 @@
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:padding="@dimen/activity_horizontal_margin"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/editTextName"
-            android:hint="@string/label_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/ic_person_gray" />
+            <EditText
+                android:id="@+id/editTextName"
+                android:hint="@string/label_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/ic_person_gray"
+                android:drawableEnd="@mipmap/ic_person_gray" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
@@ -50,9 +51,9 @@
                 android:hint="@string/label_zip_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:inputType="number"
-                android:drawableRight="@mipmap/ic_search_gray" />
+                android:drawableRight="@mipmap/ic_search_gray"
+                android:drawableEnd="@mipmap/ic_search_gray" />
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText

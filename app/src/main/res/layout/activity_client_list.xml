@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/label_no_client_registered"
-        android:visibility="invisible" android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin">
     </TextView>
 
     <com.melnykov.fab.FloatingActionButton

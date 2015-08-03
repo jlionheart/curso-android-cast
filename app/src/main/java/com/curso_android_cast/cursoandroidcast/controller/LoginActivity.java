@@ -3,8 +3,6 @@ package com.curso_android_cast.cursoandroidcast.controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +24,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         bindFields();
+
+        if(User.getLoggedInUser() != null)
+            redirectToListActivity();
     }
 
     private void bindUser(){
@@ -48,16 +49,29 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(FormHelper.requireValidate(LoginActivity.this, editTextUserName, editTextPassword)) {
                     bindUser();
+                    User.LoginAction loginAction = user.login();
 
-                    if(user.login()) {
-                        Intent intent = new Intent(LoginActivity.this, ClientListActivity.class);
-                        startActivity(intent);
-                    }
-                    else{
-                        ToastHelper.showShortToast(LoginActivity.this, R.string.error_invalid_login);
+                    switch (loginAction){
+                        case SUCCESS:
+                            redirectToListActivity();
+                            break;
+
+                        case INVALID_PASSWORD:
+                            ToastHelper.showShortToast(LoginActivity.this, R.string.error_login_invalid_password);
+                            break;
+
+                        default:
+                            ToastHelper.showShortToast(LoginActivity.this, R.string.error_login_user_do_not_exists);
+                            break;
                     }
                 }
             }
         });
+    }
+
+    private void redirectToListActivity() {
+        Intent intent = new Intent(LoginActivity.this, ClientListActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
